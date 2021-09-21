@@ -1,19 +1,15 @@
 #!/bin/bash
+#for additional fire weather filtering capabilities add Fosberg Fire Weather Index to csv data
+DATADIR=./YOUR_DIRECTORY_HERE #location of downloaded wx data csv
+OUTDIR=./fosberg #where updated csv with FFWI will be stored
 
-DATADIR=./IPC_recur_int
-OUTDIR=./fosberg
+CWD=$(pwd) #stash present working directory in variable
 
-CWD=$(pwd)
+rm -f -r scratch #remove scratch directory and contents
+mkdir scratch $OUTDIR 2> /dev/null #create scratch directory
 
-rm -f -r scratch
-mkdir scratch $OUTDIR 2> /dev/null
-
-#STATIONS='CRZC1 ATRC1 TR173'
-#STATIONS='KYCN2'
-#STATIONS='KTVL'
-
-HEADER='date,T,RH,WS,WG,meq,Pign,FFWI,MFFWI'
-UNITS='-,F,%,mph,mph,%,%,-,-'
+HEADER='date,T,RH,WS,WG,meq,Pign,FFWI,MFFWI' #create header for csv, MODIFY IF VARIABLES DIFFERENT THAN LISTED
+UNITS='-,F,%,mph,mph,%,%,-,-' #create units row for csv, MODIFY
 
 for f in $DATADIR/*; do
    STID=`basename -s .csv $f`
